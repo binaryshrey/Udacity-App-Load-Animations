@@ -69,6 +69,7 @@ class LoadingButton @JvmOverloads constructor(context: Context, attrs: Attribute
                             invalidate()
                         }
                     }
+                valueAnimator.repeatCount = ValueAnimator.REVERSE
                 valueAnimator.start()
             }
         }
