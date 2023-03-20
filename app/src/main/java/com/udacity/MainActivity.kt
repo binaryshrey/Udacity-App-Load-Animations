@@ -11,12 +11,20 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.udacity.databinding.ActivityMainBinding
 import com.udacity.utils.DOWNLOAD_OPTIONS
 import com.udacity.utils.sendNotification
+import com.udacity.viewmodel.AppViewModel
+import com.udacity.viewmodel.AppViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.content_main.view.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,15 +35,34 @@ class MainActivity : AppCompatActivity() {
     private val NOTIFICATION_CHANNEL_ID = "Udacity Loading Channel"
     private val NOTIFICATION_CHANNEL_NAME = "Udacity Loading"
 
+    private lateinit var appViewModel: AppViewModel
+    private lateinit var appViewModelFactory: AppViewModelFactory
+    private lateinit var activityMainBinding: ActivityMainBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(toolbar)
         createChannel(NOTIFICATION_CHANNEL_ID,NOTIFICATION_CHANNEL_NAME)
 
-        custom_button.setOnClickListener {
+        //initialize viewModel
+        appViewModelFactory = AppViewModelFactory(application)
+        appViewModel = ViewModelProvider(this, appViewModelFactory).get(AppViewModel::class.java)
+        activityMainBinding.lifecycleOwner = this
+
+
+        activityMainBinding.contentMain.custom_button.setOnClickListener{
+            appViewModel.updateDownloadStatus(false)
+            activityMainBinding.contentMain.custom_button.buttonState = ButtonState.Loading
             download()
         }
+
+        appViewModel.isDownloadEventComplete.observe(this, Observer {
+            if(it){
+                activityMainBinding.contentMain.custom_button.buttonState = ButtonState.Completed
+            }
+        })
     }
 
     private fun download() {
@@ -69,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         else{
             sendNotification("Unable to download!", "failed", selectedRadioText,this)
         }
+        appViewModel.updateDownloadStatus(true)
         initBR()
     }
 
