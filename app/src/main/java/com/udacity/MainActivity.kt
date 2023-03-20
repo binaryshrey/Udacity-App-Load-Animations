@@ -54,13 +54,13 @@ class MainActivity : AppCompatActivity() {
 
         activityMainBinding.contentMain.custom_button.setOnClickListener{
             appViewModel.updateDownloadStatus(false)
-            activityMainBinding.contentMain.custom_button.buttonState = ButtonState.Loading
+            activityMainBinding.contentMain.custom_button.customButtonState = ButtonState.Loading
             download()
         }
 
         appViewModel.isDownloadEventComplete.observe(this, Observer {
             if(it){
-                activityMainBinding.contentMain.custom_button.buttonState = ButtonState.Completed
+                activityMainBinding.contentMain.custom_button.customButtonState = ButtonState.Completed
             }
         })
     }
@@ -94,9 +94,9 @@ class MainActivity : AppCompatActivity() {
             downloadID = downloadManager.enqueue(request)// enqueue puts the download request in the queue.
         }
         else{
+            appViewModel.updateDownloadStatus(true)
             sendNotification("Unable to download!", "failed", selectedRadioText,this)
         }
-        appViewModel.updateDownloadStatus(true)
         initBR()
     }
 
@@ -121,6 +121,7 @@ class MainActivity : AppCompatActivity() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
                 if (id == downloadID) {
+                    appViewModel.updateDownloadStatus(true)
                     sendNotification("$selectedRadioText has been downloaded successfully!", "Successful", selectedRadioText,this@MainActivity)
                 } else {
                     sendNotification("$selectedRadioText has failed to downloaded!", "Failed", selectedRadioText,this@MainActivity)

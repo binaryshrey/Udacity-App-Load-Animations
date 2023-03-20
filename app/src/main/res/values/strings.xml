@@ -20,4 +20,8 @@
     <string name="okay">OKAY</string>
     <string name="successful">Successful</string>
     <string name="failed">Failed</string>
+    <string name="button_loading_status">Loading</string>
+    <string name="button_completed_status">Download</string>
+    <string name="button_default_status">Download</string>
+
 </resources>
