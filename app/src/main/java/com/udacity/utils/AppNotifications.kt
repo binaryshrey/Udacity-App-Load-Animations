@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import com.udacity.DetailActivity
 import com.udacity.MainActivity
 import com.udacity.R
 
@@ -16,7 +17,9 @@ private const val NOTIFICATION_TITLE = "Udacity: Android Kotlin Nanodegree Proje
 //extension function to build and send notifications
 fun NotificationManager.sendNotification(messageBody: String, status: String, fileName: String, applicationContext: Context) {
 
-    val contentIntent = Intent(applicationContext, MainActivity::class.java)
+    val contentIntent = Intent(applicationContext, DetailActivity::class.java)
+        .putExtra(DetailActivity.EXTRA_DETAIL_NOTIFY_STATUS, status)
+        .putExtra(DetailActivity.EXTRA_DETAIL_NOTIFY_FILENAME, fileName)
 
     // Create PendingIntent
     val contentPendingIntent = PendingIntent.getActivity(

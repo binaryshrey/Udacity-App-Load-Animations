@@ -124,6 +124,7 @@ class MainActivity : AppCompatActivity() {
                     appViewModel.updateDownloadStatus(true)
                     sendNotification("$selectedRadioText has been downloaded successfully!", "Successful", selectedRadioText,this@MainActivity)
                 } else {
+                    appViewModel.updateDownloadStatus(true)
                     sendNotification("$selectedRadioText has failed to downloaded!", "Failed", selectedRadioText,this@MainActivity)
                 }
             }
