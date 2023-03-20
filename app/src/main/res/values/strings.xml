@@ -15,4 +15,9 @@
     <string name="radio_option1_text">Glide - Image Loading Library by Bump Tech</string>
     <string name="radio_option2_text">LoadApp - Current repository by Udacity</string>
     <string name="radio_option3_text">Retrofit - Type-Safe HTTP client for Android and Java by Square, Inc</string>
+    <string name="status">Status</string>
+    <string name="downloaded_file_name">File Name</string>
+    <string name="okay">OKAY</string>
+    <string name="successful">Successful</string>
+    <string name="failed">Failed</string>
 </resources>
