@@ -55,7 +55,8 @@
 
     </RadioGroup>
 
-    <com.udacity.LoadingButton
+    <Button
+        android:text="Download"
         android:id="@+id/custom_button"
         android:layout_width="0dp"
         android:layout_height="64dp"
